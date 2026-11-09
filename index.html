@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>دفتر حساب اشخاص</title>
+<meta name="theme-color" content="#27466e">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="دفتر حساب">
+<link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-180.png">
+<style>
+:root{--bg:#f3f1ec;--card:#fffefb;--tx:#1f2430;--mut:#6d7280;--bd:#dedad0;--red:#c62828;--grn:#1b7f3b;--pri:#27466e;--redbg:#fbeae8;--grnbg:#e4f3e8}
+@media(prefers-color-scheme:dark){:root{--bg:#15181e;--card:#1e222a;--tx:#e9eaee;--mut:#9ca1af;--bd:#313744;--red:#ff7a70;--grn:#62d283;--pri:#8fb2e8;--redbg:#3b2220;--grnbg:#18342281}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.6 Tahoma,"Vazirmatn","Segoe UI",sans-serif}
+.w{max-width:860px;margin:0 auto;padding:12px}
+h1{font-size:20px;margin:6px 0 12px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:12px;margin-bottom:12px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+select,input,button{font:inherit;color:var(--tx);background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:8px 10px;min-height:42px}
+input,select{flex:1;min-width:120px}
+button{cursor:pointer;background:var(--pri);color:#fff;border-color:var(--pri)}
+button.g{background:var(--card);color:var(--tx);border-color:var(--bd)}
+button.x{background:none;border:0;color:var(--mut);padding:4px 8px;min-height:0}
+:focus-visible{outline:2px solid var(--pri);outline-offset:2px}
+.sum{font-size:22px;font-weight:700;padding:12px;border-radius:8px;text-align:center}
+.sum.r{background:var(--redbg);color:var(--red)}.sum.gr{background:var(--grnbg);color:var(--grn)}.sum.z{background:var(--bd)}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:560px}
+th,td{padding:8px;border-bottom:1px solid var(--bd);text-align:right;white-space:nowrap}
+th{font-size:13px;color:var(--mut);font-weight:600}
+td.n{font-variant-numeric:tabular-nums}
+.r{color:var(--red)}.gr{color:var(--grn)}
+tr.rr td{background:var(--redbg)}tr.rg td{background:var(--grnbg)}
+tfoot td{font-weight:700;border-top:2px solid var(--bd)}
+.seg{display:flex;gap:6px;flex-wrap:wrap;width:100%}
+.seg label{flex:1;min-width:130px;text-align:center;border:1px solid var(--bd);border-radius:8px;padding:8px;cursor:pointer;font-size:14px}
+.seg input{display:none}
+.seg label:has(input:checked){border-width:2px;font-weight:700}
+.seg .tg:has(input:checked){border-color:var(--grn);color:var(--grn)}
+.seg .tt:has(input:checked){border-color:var(--red);color:var(--red)}
+.seg .to:has(input:checked){border-color:var(--pri);color:var(--pri)}
+.dts{flex:2;min-width:240px;flex-wrap:nowrap}.dts select{min-width:0;padding:8px 4px}
+.ttl{display:flex;align-items:center;gap:10px}.ttl img{border-radius:9px}
+.hint{color:var(--mut);font-size:13px}
+</style>
+</head>
+<body>
+<div class="w">
+<h1 class="ttl"><img id="logo" alt="" width="40" height="40" src="data:image/png;base64,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">دفتر حساب اشخاص</h1>
+
+<div class="card row">
+  <select id="sel" aria-label="شخص"></select>
+  <button id="addP">+ شخص جدید</button>
+  <button class="g" id="ren">تغییر نام</button>
+  <button class="g" id="delP">حذف شخص</button>
+</div>
+
+<div id="main">
+<div id="status" class="sum z"></div>
+<div class="card row" style="margin-top:12px"><b>خروجی این شخص:</b><button id="xlP">اکسل</button><button class="g" id="jsP">JSON</button></div>
+
+<div class="card" style="margin-top:12px">
+  <div class="seg" id="types">
+    <label class="tg"><input type="radio" name="t" value="give" checked>واریز به حساب (دادیم)</label>
+    <label class="tt"><input type="radio" name="t" value="take">برداشت از حساب (گرفتیم)</label>
+    <label class="to"><input type="radio" name="t" value="oweO">مانده اولیه: ما بدهکاریم</label>
+    <label class="to"><input type="radio" name="t" value="claimO">مانده اولیه: او بدهکار است</label>
+  </div>
+  <div class="row" style="margin-top:10px">
+    <input id="amt" inputmode="numeric" placeholder="مبلغ به ریال" autocomplete="off">
+    <span class="row dts" role="group" aria-label="تاریخ شمسی"><select id="dd" aria-label="روز"></select><select id="dm" aria-label="ماه"></select><select id="dy" aria-label="سال"></select></span>
+    <input id="nt" placeholder="شرح (اختیاری)">
+    <button id="add">ثبت</button>
+  </div>
+  <div class="hint" id="amtfa"></div>
+</div>
+
+<div class="card tw">
+<table>
+<thead><tr><th>#</th><th>تاریخ</th><th>شرح</th><th>واریز (دادیم) ریال</th><th>برداشت (گرفتیم) ریال</th><th>مانده ریال</th><th></th></tr></thead>
+<tbody id="tb"></tbody>
+<tfoot id="tf"></tfoot>
+</table>
+</div>
+</div>
+
+<div class="card row"><b>همه حساب‌ها:</b>
+  <button id="xlA">اکسل (هر شخص یک تب)</button>
+  <button class="g" id="jsA">JSON (پشتیبان کامل)</button>
+  <button class="g" id="rs">بازیابی از فایل JSON</button>
+  <input type="file" id="fi" hidden>
+</div>
+<div class="hint">همه مبالغ به «ریال» ثبت و ذخیره می‌شود و در اکسل و JSON هم ریال است. اطلاعات فقط روی همین دستگاه ذخیره می‌شود؛ برای انتقال یا نگهداری از JSON پشتیبان بگیرید. مانده مثبت یعنی ما بدهکاریم، منفی یعنی طلبکاریم.</div>
+</div>
+</div>
+
+<script>
+const K='hesab-v1',$=id=>document.getElementById(id);
+let S;
+try{S=JSON.parse(localStorage.getItem(K))}catch(e){}
+if(!S||!S.people)S={people:[],cur:null};
+const save=()=>{try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}};
+const uid=()=>Math.random().toString(36).slice(2,9);
+const sg=t=>(t==='take'||t==='oweO')?1:-1;
+const LB={give:'واریز به حساب',take:'برداشت از حساب',oweO:'مانده اولیه (ما بدهکاریم)',claimO:'مانده اولیه (او بدهکار است)'};
+const fmt=n=>Math.abs(n).toLocaleString('en-US');
+function g2j(gy,gm,gd){const m=[0,31,59,90,120,151,181,212,243,273,304,334],y2=gm>2?gy+1:gy;let d=355666+365*gy+Math.floor((y2+3)/4)-Math.floor((y2+99)/100)+Math.floor((y2+399)/400)+gd+m[gm-1],jy=-1595+33*Math.floor(d/12053);d%=12053;jy+=4*Math.floor(d/1461);d%=1461;if(d>365){jy+=Math.floor((d-1)/365);d=(d-1)%365}return[jy,d<186?1+Math.floor(d/31):7+Math.floor((d-186)/30),1+(d<186?d%31:(d-186)%30)]}
+function j2g(jy,jm,jd){jy+=1595;let d=-355668+365*jy+Math.floor(jy/33)*8+Math.floor(((jy%33)+3)/4)+jd+(jm<7?(jm-1)*31:(jm-7)*30+186),gy=400*Math.floor(d/146097);d%=146097;if(d>36524){gy+=100*Math.floor(--d/36524);d%=36524;if(d>=365)d++}gy+=4*Math.floor(d/1461);d%=1461;if(d>365){gy+=Math.floor((d-1)/365);d=(d-1)%365}let gd=d+1;const a=[0,31,(gy%4==0&&gy%100!=0)||gy%400==0?29:28,31,30,31,30,31,31,30,31,30,31];let gm=0;for(;gm<13&&gd>a[gm];gm++)gd-=a[gm];return[gy,gm,gd]}
+const p2=n=>String(n).padStart(2,'0'),MN=['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
+const jToday=()=>{const n=new Date();return g2j(n.getFullYear(),n.getMonth()+1,n.getDate())};
+const mDays=(y,m)=>m<7?31:m<12?30:(g2j(...j2g(y,12,30)).join()===[y,12,30].join()?30:29);
+const J=(y,m,d)=>y+'/'+p2(m)+'/'+p2(d);
+const toJ=s=>{s=String(s||'');const m=s.match(/^(\d{4})-(\d\d)-(\d\d)$/);return m&&+m[1]>1700?J(...g2j(+m[1],+m[2],+m[3])):s};
+const fd=toJ;
+function fillD(){const[ty]=jToday();$('dy').innerHTML=Array.from({length:12},(_,i)=>ty-8+i).map(y=>`<option>${y}</option>`).join('');$('dm').innerHTML=MN.map((n,i)=>`<option value="${i+1}">${n}</option>`).join('');fillDays(31)}
+function fillDays(keep){const n=mDays(+$('dy').value,+$('dm').value);$('dd').innerHTML=Array.from({length:n},(_,i)=>`<option>${i+1}</option>`).join('');$('dd').value=Math.min(keep,n)}
+const getD=()=>J(+$('dy').value,+$('dm').value,+$('dd').value);
+function setD(s){const[y,m,d]=toJ(s).split('/').map(Number);if(![...$('dy').options].some(o=>+o.value===y))$('dy').add(new Option(y,y));$('dy').value=y;$('dm').value=m;fillDays(d)}
+const num=s=>Number(String(s).replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[,٬،\s]/g,''));
+const P=()=>S.people.find(p=>p.id===S.cur);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const tomanText=v=>{const q=Math.floor(v/10),r=v%10,P=[];let x=q;
+  for(const[u,n]of[[1e9,'میلیارد'],[1e6,'میلیون'],[1e3,'هزار']]){const k=Math.floor(x/u);if(k){P.push(k+' '+n);x-=k*u}}
+  if(x)P.push(String(x));
+  return P.join(' و ')+(q?' تومان':'')+(r?(q?' و ':'')+r+' ریال':'')};
+function statusText(b){return b>0?'ما بدهکاریم: '+fmt(b)+' ریال':b<0?'او بدهکار است (طلب ما): '+fmt(b)+' ریال':'حساب تسویه است'}
+
+function render(){
+  const sel=$('sel');
+  sel.innerHTML=S.people.map(p=>`<option value="${p.id}"${p.id===S.cur?' selected':''}>${esc(p.name)}</option>`).join('')||'<option>— شخصی ثبت نشده —</option>';
+  const p=P();$('main').hidden=!p;
+  if(!p)return;
+  let b=0,gv=0,tk=0;
+  $('tb').innerHTML=p.entries.map((e,i)=>{
+    const s=sg(e.t);b+=s*e.a;if(s>0)tk+=e.a;else gv+=e.a;
+    return `<tr class="${s>0?'rr':'rg'}"><td>${i+1}</td><td>${fd(e.d)}</td><td>${esc(e.n)||LB[e.t]}</td>
+    <td class="n gr">${s<0?fmt(e.a):''}</td><td class="n r">${s>0?fmt(e.a):''}</td>
+    <td class="n ${b>0?'r':b<0?'gr':''}">${fmt(b)}${b<0?' (طلب)':''}</td>
+    <td><button class="x" data-e="${e.id}" title="ویرایش">✎</button><button class="x" data-d="${e.id}" title="حذف">✕</button></td></tr>`}).join('')
+    ||'<tr><td colspan="7" class="hint">هنوز تراکنشی ثبت نشده. از فرم بالا اولین مورد را ثبت کنید.</td></tr>';
+  $('tf').innerHTML=`<tr><td colspan="3">جمع</td><td class="n gr">${fmt(gv)}</td><td class="n r">${fmt(tk)}</td><td class="n ${b>0?'r':b<0?'gr':''}">${fmt(b)}</td><td></td></tr>`;
+  const st=$('status');st.textContent=statusText(b);st.className='sum '+(b>0?'r':b<0?'gr':'z');
+}
+$('sel').onchange=e=>{S.cur=e.target.value;save();render()};
+$('addP').onclick=()=>{const n=(prompt('نام شخص:')||'').trim();if(!n)return;const p={id:uid(),name:n,entries:[]};S.people.push(p);S.cur=p.id;save();render()};
+$('ren').onclick=()=>{const p=P();if(!p)return;const n=(prompt('نام جدید:',p.name)||'').trim();if(n){p.name=n;save();render()}};
+$('delP').onclick=()=>{const p=P();if(!p||!confirm('«'+p.name+'» و همه حساب‌هایش حذف شود؟'))return;S.people=S.people.filter(x=>x!==p);S.cur=S.people[0]?S.people[0].id:null;save();render()};
+$('amt').oninput=e=>{const v=num(e.target.value);if(Number.isInteger(v)&&v>0){e.target.value=v.toLocaleString('en-US');$('amtfa').textContent=tomanText(v)}else{$('amtfa').textContent=''}};
+$('add').onclick=()=>{
+  const p=P();if(!p)return;const a=num($('amt').value);
+  if(!(a>0&&Number.isInteger(a))){alert('مبلغ را به‌صورت عدد صحیح و به ریال وارد کنید.');$('amt').focus();return}
+  p.entries.push({id:uid(),t:document.querySelector('input[name=t]:checked').value,a,d:getD(),n:$('nt').value.trim()});
+  $('amt').value='';$('nt').value='';$('amtfa').textContent='';save();render();$('amt').focus()};
+$('amt').onkeydown=e=>{if(e.key==='Enter')$('add').click()};
+$('tb').onclick=e=>{
+  const p=P(),b=e.target.closest('button');if(!b||!p)return;
+  if(b.dataset.d){if(confirm('این ردیف حذف شود؟')){p.entries=p.entries.filter(x=>x.id!==b.dataset.d);save();render()}}
+  if(b.dataset.e){const x=p.entries.find(y=>y.id===b.dataset.e);
+    document.querySelector(`input[name=t][value=${x.t}]`).checked=true;$('amt').value=x.a.toLocaleString('en-US');setD(x.d);$('nt').value=x.n;$('amt').oninput({target:$('amt')});
+    p.entries=p.entries.filter(y=>y!==x);save();render();$('amt').focus()}};
+fillD();setD(J(...jToday()));$('dy').onchange=$('dm').onchange=()=>fillDays(+$('dd').value);
+
+const iOS=/iP(hone|ad|od)/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+async function dl(blob,name){
+  if(iOS&&navigator.canShare){const f=new File([blob],name,{type:blob.type});
+    if(navigator.canShare({files:[f]})){try{await navigator.share({files:[f],title:name});return}catch(e){if(e.name==='AbortError')return}}}
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000)}
+const stamp=()=>J(...jToday()).replace(/\//g,'-');
+const safe=s=>String(s).replace(/[\\\/:*?"<>|\s]+/g,'_');
+const pack=(list,scope)=>({app:'hesab',version:2,unit:'IRR (ریال)',scope,exportedAt:new Date().toISOString(),people:list});
+const jsonBlob=o=>new Blob([JSON.stringify(o,null,1)],{type:'application/json'});
+$('jsA').onclick=()=>dl(jsonBlob(pack(S.people,'all')),'hesab-all-'+stamp()+'.json');
+$('jsP').onclick=()=>{const p=P();if(p)dl(jsonBlob(pack([p],'person')),'hesab-'+safe(p.name)+'-'+stamp()+'.json')};
+$('rs').onclick=()=>$('fi').click();
+$('fi').onchange=async e=>{const f=e.target.files[0];if(!f)return;
+  try{const d=JSON.parse(await f.text());if(!Array.isArray(d.people))throw 0;
+    if(d.scope==='person'&&d.people.length===1){const q=d.people[0],i=S.people.findIndex(x=>x.id===q.id);
+      if(i>=0){if(!confirm('حساب «'+q.name+'» قبلاً وجود دارد؛ با فایل جایگزین شود؟'))return;S.people[i]=q}else S.people.push(q);
+      S.cur=q.id;save();render()}
+    else if(confirm('همه اطلاعات فعلی با این پشتیبان جایگزین شود؟')){S={people:d.people,cur:d.people[0]?d.people[0].id:null};save();render()}
+  }catch(_){alert('فایل پشتیبان معتبر نیست.')}e.target.value=''};
+
+const X=s=>String(s).replace(/[\x00-\x08\x0b\x0c\x0e-\x1f]/g,'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const XL='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',HD='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>';
+const CT=(()=>{const t=[];for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0}return t})();
+const crc=u=>{let c=-1;for(let i=0;i<u.length;i++)c=CT[(c^u[i])&255]^(c>>>8);return(~c)>>>0};
+function zip(files){
+  const parts=[],cen=[];let off=0;
+  const w16=(a,v)=>a.push(v&255,(v>>>8)&255),w32=(a,v)=>a.push(v&255,(v>>>8)&255,(v>>>16)&255,(v>>>24)&255);
+  files.forEach(f=>{
+    const nb=new TextEncoder().encode(f.n),c=crc(f.d),L=f.d.length,h=[],g=[];
+    w32(h,0x04034b50);w16(h,20);w16(h,0x0800);w16(h,0);w16(h,0);w16(h,0x21);w32(h,c);w32(h,L);w32(h,L);w16(h,nb.length);w16(h,0);
+    parts.push(Uint8Array.from(h),nb,f.d);
+    w32(g,0x02014b50);w16(g,20);w16(g,20);w16(g,0x0800);w16(g,0);w16(g,0);w16(g,0x21);w32(g,c);w32(g,L);w32(g,L);w16(g,nb.length);w16(g,0);w16(g,0);w16(g,0);w16(g,0);w32(g,0);w32(g,off);
+    cen.push(Uint8Array.from(g),nb);off+=h.length+nb.length+L});
+  let cs=0;cen.forEach(x=>cs+=x.length);const e=[];
+  w32(e,0x06054b50);w16(e,0);w16(e,0);w16(e,files.length);w16(e,files.length);w32(e,cs);w32(e,off);w16(e,0);
+  return new Blob([...parts,...cen,Uint8Array.from(e)],{type:XL});
+}
+const FN=(extra,color)=>`<font>${extra}<sz val="11"/>${color?`<color rgb="${color}"/>`:''}<name val="Tahoma"/></font>`;
+const XFS=[[0,0,0,0,''],[0,2,2,0,'c'],[164,0,0,0,''],[164,3,0,0,''],[164,4,0,0,''],[0,3,0,0,''],[0,4,0,0,''],[0,1,0,1,''],[164,1,0,1,''],[0,1,0,0,'']];
+const STYLES=HD+'<styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><numFmts count="1"><numFmt numFmtId="164" formatCode="#,##0"/></numFmts>'+
+  `<fonts count="5">${FN('')}${FN('<b/>')}${FN('<b/>','FFFFFFFF')}${FN('','FF1B7F3B')}${FN('','FFC62828')}</fonts>`+
+  '<fills count="3"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FF27466E"/></patternFill></fill></fills>'+
+  '<borders count="2"><border><left/><right/><top/><bottom/><diagonal/></border><border><left/><right/><top style="medium"><color auto="1"/></top><bottom/><diagonal/></border></borders>'+
+  '<cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs>'+
+  `<cellXfs count="${XFS.length}">${XFS.map(([n,f,fi,b,a])=>`<xf numFmtId="${n}" fontId="${f}" fillId="${fi}" borderId="${b}" xfId="0" applyNumberFormat="1" applyFont="1" applyFill="1" applyBorder="1"${a?' applyAlignment="1"><alignment horizontal="center" vertical="center" wrapText="1"/></xf>':'/>'}`).join('')}</cellXfs>`+
+  '<cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles>'+
+  '<dxfs count="2"><dxf><font><b/><color rgb="FFC62828"/></font></dxf><dxf><font><b/><color rgb="FF1B7F3B"/></font></dxf></dxfs></styleSheet>';
+function cx(r,i,c){
+  if(c==null)return'';if(typeof c!=='object')c={v:c};
+  const ref='ABCDEFG'[i]+r,s=c.s?` s="${c.s}"`:'';
+  if(c.f){const f=`<f>${X(c.f)}</f>`;return typeof c.v==='number'?`<c r="${ref}"${s}>${f}<v>${c.v}</v></c>`:`<c r="${ref}"${s} t="str">${f}<v>${X(c.v)}</v></c>`}
+  if(c.v===undefined||c.v==='')return c.s?`<c r="${ref}"${s}/>`:'';
+  if(typeof c.v==='number')return `<c r="${ref}"${s}><v>${c.v}</v></c>`;
+  return `<c r="${ref}"${s} t="inlineStr"><is><t xml:space="preserve">${X(c.v)}</t></is></c>`;
+}
+function sheetXml(p){
+  const n=p.entries.length,last=Math.max(2,n+1),t=n+2;let b=0,gv=0,tk=0;
+  const rows=[{ht:34,c:['ردیف','تاریخ (شمسی)','نوع تراکنش','شرح','واریز به حساب - دادیم (ریال)','برداشت از حساب - گرفتیم (ریال)','مانده (ریال)'].map(v=>({v,s:1}))}];
+  p.entries.forEach((e,i)=>{
+    const r=i+2,s=sg(e.t);b+=s*e.a;if(s>0)tk+=e.a;else gv+=e.a;
+    rows.push({c:[i+1,fd(e.d),{v:LB[e.t],s:s>0?6:5},e.n||'',s<0?{v:e.a,s:3}:null,s>0?{v:e.a,s:4}:null,{f:(i?`G${r-1}+`:'')+`F${r}-E${r}`,v:b,s:2}]});
+  });
+  rows.push({c:[{s:7},{s:7},{s:7},{v:'جمع',s:7},{f:`SUM(E2:E${last})`,v:gv,s:8},{f:`SUM(F2:F${last})`,v:tk,s:8},{f:`F${t}-E${t}`,v:b,s:8}]});
+  const fin=`IF(G${t}>0,"ما بدهکاریم: "&TEXT(G${t},"#,##0")&" ریال",IF(G${t}<0,"او بدهکار است (طلب ما): "&TEXT(-G${t},"#,##0")&" ریال","تسویه"))`;
+  rows.push({c:[null,null,null,{v:'وضعیت نهایی',s:9},{f:fin,v:statusText(b),s:9}]});
+  const W=[7,14,28,32,26,28,20];
+  return HD+'<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetViews><sheetView rightToLeft="1" workbookViewId="0"/></sheetViews>'+
+    `<cols>${W.map((w,i)=>`<col min="${i+1}" max="${i+1}" width="${w}" customWidth="1"/>`).join('')}</cols><sheetData>`+
+    rows.map((r,i)=>`<row r="${i+1}"${r.ht?` ht="${r.ht}" customHeight="1"`:''}>${r.c.map((c,j)=>cx(i+1,j,c)).join('')}</row>`).join('')+
+    `</sheetData><mergeCells count="1"><mergeCell ref="E${t+1}:G${t+1}"/></mergeCells>`+
+    `<conditionalFormatting sqref="G2:G${t}"><cfRule type="cellIs" dxfId="0" priority="1" operator="greaterThan"><formula>0</formula></cfRule><cfRule type="cellIs" dxfId="1" priority="2" operator="lessThan"><formula>0</formula></cfRule></conditionalFormatting></worksheet>`;
+}
+async function xl(list,name){
+  if(!list.length){alert('ابتدا یک شخص اضافه کنید.');return}
+  const used=new Set(),sh=list.map(p=>{
+    let nm=(p.name.replace(/[\[\]:*?\/\\'\x00-\x1f]/g,'').slice(0,28)||'شخص'),k=2;const base=nm;while(used.has(nm.toLowerCase()))nm=base+' '+k++;used.add(nm.toLowerCase());
+    return{nm,xml:sheetXml(p)}}),N=sh.length,R='http://schemas.openxmlformats.org/officeDocument/2006/relationships';
+  const f=[
+    ['[Content_Types].xml',HD+'<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>'+sh.map((_,i)=>`<Override PartName="/xl/worksheets/sheet${i+1}.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>`).join('')+'</Types>'],
+    ['_rels/.rels',HD+`<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="${R}/officeDocument" Target="xl/workbook.xml"/></Relationships>`],
+    ['xl/workbook.xml',HD+`<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="${R}"><bookViews><workbookView/></bookViews><sheets>${sh.map((s,i)=>`<sheet name="${X(s.nm)}" sheetId="${i+1}" r:id="rId${i+1}"/>`).join('')}</sheets><calcPr calcId="191029" fullCalcOnLoad="1"/></workbook>`],
+    ['xl/_rels/workbook.xml.rels',HD+`<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">${sh.map((_,i)=>`<Relationship Id="rId${i+1}" Type="${R}/worksheet" Target="worksheets/sheet${i+1}.xml"/>`).join('')}<Relationship Id="rId${N+1}" Type="${R}/styles" Target="styles.xml"/></Relationships>`],
+    ['xl/styles.xml',STYLES],...sh.map((s,i)=>[`xl/worksheets/sheet${i+1}.xml`,s.xml])];
+  const E=new TextEncoder();
+  await dl(zip(f.map(([n,s])=>({n,d:E.encode(s)}))),name);
+}
+$('xlP').onclick=()=>{const p=P();if(p)xl([p],'hesab-'+safe(p.name)+'-'+stamp()+'.xlsx')};
+$('xlA').onclick=()=>xl(S.people,'hesab-all-'+stamp()+'.xlsx');
+{const l=document.createElement('link');l.rel='icon';l.href=$('logo').src;document.head.appendChild(l)}
+if('serviceWorker' in navigator&&/^https?:/.test(location.protocol))navigator.serviceWorker.register('sw.js').catch(()=>{});
+S.people.forEach(p=>p.entries.forEach(e=>e.d=toJ(e.d)));
+if(!S.cur&&S.people[0])S.cur=S.people[0].id;
+render();
+</script>
+</body>
+</html>
